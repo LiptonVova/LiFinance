@@ -8,7 +8,7 @@ admin.site.register(BankAccount)
 @admin.register(Operation)
 class OperationAdmin(admin.ModelAdmin):
     list_display = (
-        'id', 'sum', 'category', 'content', 'date', 'bank_account',
+        'id', 'operation_type', 'sum', 'category', 'content', 'date', 'bank_account',
     )
     
     list_filter = ('category',)
@@ -18,6 +18,6 @@ class OperationAdmin(admin.ModelAdmin):
             'fields': ("content", )
         } ),
         ("Служебная информация", {
-            'fields': ("sum", "category", "bank_account", "date", )
+            'fields': ("operation_type","sum", "category", "bank_account", "date", )
         }),
     )

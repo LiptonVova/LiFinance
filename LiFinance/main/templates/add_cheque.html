@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %} 
+
+
+<form method="POST" action="">
+
+    {% csrf_token %}
+
+    {{ form.sum.label_tag }}
+    {{ form.sum }} <br>
+
+    {{ form.operation_type.label_tag }}
+    {{ form.operation_type }} <br>
+
+    {{ form.content.label_tag }}
+    {{ form.content }} <br>
+
+    {{ form.bank_account.label_tag }}
+    {{ form.bank_account }} <br>
+
+
+    {{ form.category.label_tag }}
+    {{ form.category }} <br>
+    
+    {{ form.date.label_tag }}
+    {{ form.date }} <br>
+
+    <input type="submit" />
+
+    {{ form.errors }}
+
+</form>
+{% endblock %}  

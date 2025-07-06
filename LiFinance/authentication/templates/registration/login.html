@@ -1,0 +1,23 @@
+{% extends "registration/base.html" %}
+
+{% block title%} <title> Вход </title> {% endblock %}
+
+{% block content %}
+    <h1> Войти </h1>
+
+    <form method="POST"> 
+        {% csrf_token %}
+        {{ form.username.label_tag }} 
+        {{ form.username }} <br>
+
+        {{ form.password.label_tag }}
+        {{ form.password }} <br>
+
+        <input type="submit" value="Войти" />
+        <input type="hidden" name="next" value="{{ next }}" />
+    </form>
+
+    
+
+
+{% endblock %}

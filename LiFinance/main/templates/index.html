@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+
+{% block content %} 
+<h2> Кстати, вы посетели LiFinance {{num_visits}} раз </h2>
+
+<h1> А вот тут будет диаграмма</h1>
+
+<h2> Операции по категориям </h2>
+
+<h3> Расходы </h3>
+
+{% if categories_expense %} 
+    <ul>
+        {% for category, amount in categories_expense.items %}
+        <li> {{category}} - {{amount}}
+
+        {% endfor %}
+    </ul>
+
+{% else %} 
+    Расходов нет
+
+{% endif %}
+<h3> Доходы </h3>
+
+{% if categories_income %}
+    <ul>
+        {% for category, amount in categories_income.items %}
+            <li> {{ category }} - {{ amount }}
+        {% endfor %}
+        
+    </ul>
+{% else %}
+    Доходов нет
+
+{% endif %}
+
+<h2> Операции по счетам </h2>
+
+<h3> Расходы </h3>
+{% if bank_account_expense %}
+    <ul>
+        {% for account, amount in bank_account_expense.items %}
+            <li> {{account}} - {{amount}}
+        {% endfor %}
+    </ul>
+
+{% else %}
+Расходов нет
+
+{% endif %}
+
+<h3> Доходы </h3>
+{% if bank_account_income %}
+    <ul> 
+        {% for account, amount in bank_account_income.items %}
+            <li> {{account}} - {{amount}}
+        {% endfor %}
+    </ul>
+
+{% else %}
+Доходов нет
+
+
+{% endif %}
+
+<h3> Последние чеки </h3> 
+<a href="{% url 'main:add_cheque' %}"> Добавить чек </a>
+
+{% if last_cheques %}
+    <ul>
+    {% for cheque in last_cheques %}
+        <li> {{cheque}}
+
+    {% endfor %}
+    </ul>
+
+{% else %}
+Чеков нет, добавьте свой первый чек
+
+
+{% endif %}
+
+{% endblock %}
