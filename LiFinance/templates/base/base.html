@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ru">
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'style_navigation.css'%}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700&display=swap">
+
+        {% block links %} {% endblock %}
+    </head>
+
+    <body>
+        {% block navigation %} 
+            <nav>
+                <div class="nav-container">
+                    <div class="nav-links">
+                        {% if user.is_authenticated %}
+
+                        <a href="{% url "main:index" %}" class="nav-link nax-link-home"> Домашняя страница </a>
+                        <a href="" class="nav-link nav-link-history"> История </a>
+                        <a href="{% url 'main:add_cheque' %}" class="nav-link nav-link-add"> Добавить чек </a>
+                        <a href="" class="nav-link"> Аккаунт </a>
+
+                        <form action = "{% url "authentication:logout" %}" method="POST" class="nav-logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-logout-btn"> Выйти </button>   
+                        </form>
+
+                        {% else %}
+                        <a href="{% url 'authentication:login' %}" class="nav-link"> Войти </a>
+                        <a href="{% url 'authentication:register' %}" class="nav-link"> Зарегистироваться </a> 
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>  
+        {% endblock %}
+
+        {% block content %} {% endblock %}
+
+        <script src="{% static 'js/navigation.js' %}"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

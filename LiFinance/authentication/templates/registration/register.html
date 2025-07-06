@@ -1,22 +1,50 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
+
+{% block links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'registration/css/style.css'%}"/> 
+{% endblock %}
 
 {% block content %}
-
 <form method="POST" action="">
     {% csrf_token %}
+    <div class="container"> 
+        {% if form.errors %}
+            <div class="form-errors">
+                {% for field, errors in form.errors.items %}
+                    {{ error }} <br>
+                {% endfor %}
+            </div>
+        {% endif %}
 
-    {{ form.errors }}
+        <div class="form-group">
+            <label for="{{ form.username.id_for_label}}"> Логин </label>
+            {{ form.username }} <br>
+        </div>
 
-    <label for="{{ form.username.id_for_label}}"> Логин </label>
-    {{ form.username }} <br>
+        <div class="form-group">
+            <label for="{{ form.password1.id_for_label }}"> Пароль </label>
+            {{ form.password1 }} <br>
+            <div class="password-hint">
+                Ваш пароль должен содержать как минимум 8 символов    
+            </div>
+        </div>
 
-    <label for="{{ form.password1.id_for_label }}"> Пароль </label>
-    {{ form.password1 }} <br>
+        <div class="form-group">
+            <label for="{{ form.password2.id_for_label }}"> Повторите пароль</label>
+            {{ form.password2 }} <br>
+        </div>
 
-    <label for="{{ form.password2.id_for_label }}"> Повторите пароль</label>
-    {{ form.password2 }} <br>
+        <input type="submit" value="Зарегистироваться" class="submit-btn" /> 
 
-    <input type="submit"/>
+        <div class="auth-redirect">
+            Уже есть аккаунт? 
+            <a href="{% url 'authentication:login' %}"> Войти </a>
+        </div>
+    </div>
 </form>
+{% endblock %}
 
+{% block scripts %} 
+<script src="{% static 'registration/js/register.js' %}"> </script>
 {% endblock %}

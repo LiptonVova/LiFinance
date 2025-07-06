@@ -1,6 +1,7 @@
 from django.db import models
-
 from django.utils import timezone
+
+from django.contrib.auth.models import User
 
 type_choices = {
     "IN": "Доход",
@@ -11,6 +12,7 @@ type_choices = {
 class Category(models.Model):
     name = models.CharField(max_length=50)
     category_type = models.CharField(choices=type_choices)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.name}"
@@ -18,6 +20,7 @@ class Category(models.Model):
     
 class BankAccount(models.Model):
     name = models.CharField(max_length=50)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.name}"
@@ -32,6 +35,7 @@ class Operation(models.Model):
     
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     bank_account = models.ForeignKey(BankAccount, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return f"<Operation with sum {self.sum}: category - {self.category.name}, bank account - {self.bank_account.name}>"

@@ -1,10 +1,17 @@
 from django import forms 
 
-from django.forms import ModelForm
-
-from .models import Operation
+from .models import Operation, Category, BankAccount
     
-class ChequeModelForm(ModelForm):
+    
+class ChequeModelForm(forms.ModelForm):    
+    def __init__(self, user, *args, **kwargs):
+        super(ChequeModelForm, self).__init__(*args, **kwargs)
+        self.fields["category"] = forms.ModelChoiceField(queryset=Category.objects.filter(user=user))
+        self.fields["bank_account"] = forms.ModelChoiceField(queryset=BankAccount.objects.filter(user=user))
+
+            
     class Meta:
         model = Operation
-        fields = '__all__'
+        fields = ("sum", "content", "date", "operation_type", 
+                  "category", "bank_account", )
+        # fields = '__all__'

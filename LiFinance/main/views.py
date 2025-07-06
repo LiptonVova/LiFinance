@@ -5,14 +5,13 @@ from django.urls import reverse
 
 from django.forms import modelform_factory
 
+from django.contrib.auth.models import User
+
 from .models import Category, BankAccount, Operation
 from .forms import ChequeModelForm
 
 def index(request):
-    num_visits = request.session.get('num_visits', 0) + 1
-    request.session['num_visits'] = num_visits
-    
-    categories = Category.objects.all()
+    categories = Category.objects.filter(user=request.user)
     categories_expense = dict()
     categories_income = dict()
 
@@ -27,7 +26,7 @@ def index(request):
             amount = Operation.objects.filter(category=category).aggregate(Sum('sum'))
             categories_expense[category.name] = amount["sum__sum"]
 
-    bank_accounts = BankAccount.objects.all()    
+    bank_accounts = BankAccount.objects.filter(user=request.user)   
     bank_account_expense = dict()
     bank_account_income = dict()
     
@@ -43,7 +42,7 @@ def index(request):
         if (amount_income["sum__sum"] is not None):
             bank_account_income[account.name] = amount_income["sum__sum"]
         
-    last_cheques = Operation.objects.filter()[:5]
+    last_cheques = Operation.objects.filter(user=request.user)[:5]
     
     context = {
         "categories_expense": categories_expense,
@@ -53,8 +52,6 @@ def index(request):
         "bank_account_income": bank_account_income,
         
         "last_cheques": last_cheques,   
-        
-        "num_visits": num_visits,    
     }
     
     return render(request, 'index.html', context=context)
@@ -62,14 +59,23 @@ def index(request):
 
 def add_cheque(request):
     if request.method == "POST":
-        form = ChequeModelForm(request.POST)
+        form = ChequeModelForm(request.user, request.POST)
         
         if form.is_valid():
-            form.save()
+            op = Operation()
+            op.sum = form.cleaned_data["sum"]
+            op.content = form.cleaned_data["content"]
+            op.date = form.cleaned_data["date"]
+            op.operation_type = form.cleaned_data["operation_type"]
+            op.category = form.cleaned_data["category"]
+            op.bank_account = form.cleaned_data["bank_account"]
+            op.user = request.user
+            
+            op.save()
+                        
             return HttpResponseRedirect(reverse('main:index'))
     
     else:
-        form = ChequeModelForm()
-        # form = modelform_factory(Operation, fields="__all__") # тоже самое, что и предыдущее, но короче
-        
+        form = ChequeModelForm(user=request.user)
+                
     return render(request, 'add_cheque.html', {"form": form})

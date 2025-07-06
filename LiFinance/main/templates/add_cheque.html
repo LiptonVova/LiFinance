@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block content %} 
 
@@ -25,6 +25,10 @@
     
     {{ form.date.label_tag }}
     {{ form.date }} <br>
+{% comment %} 
+    {{ form.user.label_tag }}
+    {{ form.user }} {% endcomment %}
+
 
     <input type="submit" />
 
