@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+
+{% block links %} 
+
+{% endblock %}
+
+{% block content %} 
+    <form method="POST" action="{% url 'authentication:add_category' %}">  
+        {% csrf_token %}
+
+        {{ form_category }}
+        <input type="submit" value="Добавить категорию"/> 
+        <input type="hidden" name="form-id" value="category" />
+    </form>
+
+    <br> <br>
+
+    <form method="POST" action="{% url 'authentication:add_bank_account' %}">
+        {% csrf_token %}
+    
+        {{ form_bank_account }}
+        <input type="submit" value="Добавить счет" /> 
+        <input type="hidden" name="form-id" value="bank_account" />
+    </form>
+
+{% endblock %}

@@ -14,4 +14,3 @@ class ChequeModelForm(forms.ModelForm):
         model = Operation
         fields = ("sum", "content", "date", "operation_type", 
                   "category", "bank_account", )
-        # fields = '__all__'

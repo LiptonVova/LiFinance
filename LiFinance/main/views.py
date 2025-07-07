@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.db.models import Sum
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from django.forms import modelform_factory
 
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 from .models import Category, BankAccount, Operation
 from .forms import ChequeModelForm
 
+@login_required(login_url=reverse_lazy("authentication:login"))
 def index(request):
     categories = Category.objects.filter(user=request.user)
     categories_expense = dict()
@@ -56,7 +58,7 @@ def index(request):
     
     return render(request, 'index.html', context=context)
 
-
+@login_required(login_url=reverse_lazy('authentication:login'))
 def add_cheque(request):
     if request.method == "POST":
         form = ChequeModelForm(request.user, request.POST)
@@ -73,7 +75,7 @@ def add_cheque(request):
             
             op.save()
                         
-            return HttpResponseRedirect(reverse('main:index'))
+            return HttpResponseRedirect(reverse('authentication:index'))
     
     else:
         form = ChequeModelForm(user=request.user)
