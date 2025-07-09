@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from .models import Category, BankAccount, Operation
-from .forms import ChequeModelForm
+from .forms import ChequeModelForm, ContentForm
 
 @login_required(login_url=reverse_lazy("authentication:login"))
 def index(request):
@@ -56,7 +56,7 @@ def index(request):
         "last_cheques": last_cheques,   
     }
     
-    return render(request, 'index.html', context=context)
+    return render(request, 'main/index.html', context=context)
 
 @login_required(login_url=reverse_lazy('authentication:login'))
 def add_cheque(request):
@@ -75,9 +75,20 @@ def add_cheque(request):
             
             op.save()
                         
-            return HttpResponseRedirect(reverse('authentication:index'))
+            return HttpResponseRedirect(reverse('main:index'))
     
-    else:
+    else:        
         form = ChequeModelForm(user=request.user)
+        form_content = ContentForm()
                 
-    return render(request, 'add_cheque.html', {"form": form})
+    context = {
+        "form": form,
+        "form_content": form_content,
+    }
+                
+    return render(request, 'main/add_cheque.html', context=context)
+
+
+def add_content(request):
+    form = ContentForm(request.GET)
+    

@@ -18,7 +18,7 @@
                         <a href="{% url "main:index" %}" class="nav-link nax-link-home"> Домашняя страница </a>
                         <a href="" class="nav-link nav-link-history"> История </a>
                         <a href="{% url 'main:add_cheque' %}" class="nav-link nav-link-add"> Добавить чек </a>
-                        <a href="" class="nav-link"> Аккаунт </a>
+                        <a href="{% url 'authentication:account' %}" class="nav-link"> Аккаунт </a>
 
                         <form action = "{% url "authentication:logout" %}" method="POST" class="nav-logout-form">
                             {% csrf_token %}

@@ -40,9 +40,15 @@ def account_view(request):
     form_category = CategoryModelForm()
     form_bank_account = BankAccountModelForm()
     
+    all_categories = Category.objects.filter(user=request.user)
+    all_bank_accounts = BankAccount.objects.filter(user=request.user)
+    
     context = {
         "form_category": form_category,
-        "form_bank_account": form_bank_account,        
+        "form_bank_account": form_bank_account,   
+        
+        "all_categories": all_categories,
+        "all_bank_accounts": all_bank_accounts,     
     }       
     return render(request, "registration/account.html", context=context)
 

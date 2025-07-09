@@ -5,6 +5,16 @@
 {% endblock %}
 
 {% block content %} 
+
+    {% if all_categories %}
+    <h3> Ваши категории </h3>
+    <ul>
+        {% for category in all_categories %}
+            <li> {{category}} </li>
+        {% endfor %}
+    </ul> <br>
+    {% endif %}
+    
     <form method="POST" action="{% url 'authentication:add_category' %}">  
         {% csrf_token %}
 
@@ -14,6 +24,15 @@
     </form>
 
     <br> <br>
+
+    {% if all_bank_accounts %}
+    <h3> Ваши банковские счета </h3>
+    <ul>
+        {% for bank_account in all_bank_accounts %}
+            <li> {{bank_account}} </li>
+        {% endfor %}
+    </ul> <br>
+    {% endif %}
 
     <form method="POST" action="{% url 'authentication:add_bank_account' %}">
         {% csrf_token %}

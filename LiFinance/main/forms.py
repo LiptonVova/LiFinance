@@ -14,3 +14,8 @@ class ChequeModelForm(forms.ModelForm):
         model = Operation
         fields = ("sum", "content", "date", "operation_type", 
                   "category", "bank_account", )
+        
+class ContentForm(forms.Form):
+    name = forms.CharField(max_length=50)
+    count = forms.IntegerField()
+    price = forms.IntegerField()
