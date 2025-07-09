@@ -1,52 +1,59 @@
 {% extends "base/base.html" %}
 {% load static %}
 
+{% block links %}
+    <link rel="stylesheet" href="{% static 'main/css/add_cheque.css' %}"/>
+{% endblock %}
 
 {% block content %} 
+    <h2> Добавление чека </h2>
 
-
-    <form method="POST" action="">
-
+    <form method="POST" action="" id="transaction-form" >
         {% csrf_token %}
 
-        {{ form.sum.label_tag }}
-        {{ form.sum }} <br>
+        {{ form.as_p }}
 
-        {{ form.operation_type.label_tag }}
-        {{ form.operation_type }} <br>
+        <h3> Позиции в чеке </h3>
 
-        {{ form.content.label_tag }}
-        {{ form.content }} <br>
-
-        {{ form.bank_account.label_tag }}
-        {{ form.bank_account }} <br>
-
-
-        {{ form.category.label_tag }}
-        {{ form.category }} <br>
-        
-        {{ form.date.label_tag }}
-        {{ form.date }} <br>
-
-        <input type="submit" />
-
-        {{ form.errors }}
-
-    </form>
-
-
-    <form action="{% url 'main:add_content'%}" method="POST" id="myForm"> 
-        <div id="inputContainer">
-            {{ form_content }}
+        <div id="items-container"> 
+            
         </div>
-        <button type="button" id="addInput"> добавить поле ввода </button>
 
+        <input type="hidden" name="items_data" id="items-data" >
+        
+        <button type="button" id="add-item-btn" class="btn btn-secondary" > Добавить позицию </button>
+        <button type="submit" class="btn btn-primary"> Сохранить чек </button>
     </form>
 
 
-    {% block scripts %}
-        <script src="{% static 'main/js/main.js' %}"> </script>
+    <div id="item-template" style="display:none;"> 
+        <div class="item-form">
+            <div class="form-group">
+                <label> Наименование </label>
+                <input type="text" class="form-control item-name" required /> 
+            </div>
 
-    {% endblock %}
+
+            <div class="form-group"> 
+                <label> Количество </label>
+                <input type="number" class="form-control item-quantity" min="1" value="1" required /> 
+            </div>
+
+            <div class="form-group"> 
+                <label> Цена за единицу товара </label>
+                <input type="number" step="0.01" class="form-control item-price" required />
+           </div>
+           <button type="button" class="btn btn-danger remove-item-btn"> Удалить </button>
+           <hr>
+        </div>
+    </div>
+
+
 
 {% endblock %}  
+    
+{% block scripts %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"> </script>
+    <script src="{% static 'main/js/main.js' %}"> </script>
+
+{% endblock %}

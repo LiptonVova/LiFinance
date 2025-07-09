@@ -3,6 +3,8 @@ from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 
+import json
+
 from django.forms import modelform_factory
 
 from django.contrib.auth.models import User
@@ -64,31 +66,22 @@ def add_cheque(request):
         form = ChequeModelForm(request.user, request.POST)
         
         if form.is_valid():
-            op = Operation()
-            op.sum = form.cleaned_data["sum"]
-            op.content = form.cleaned_data["content"]
-            op.date = form.cleaned_data["date"]
-            op.operation_type = form.cleaned_data["operation_type"]
-            op.category = form.cleaned_data["category"]
-            op.bank_account = form.cleaned_data["bank_account"]
-            op.user = request.user
+            transaction = form.save(commit=False)
+
+            transaction.user = request.user
             
-            op.save()
-                        
+            items_data = request.POST.get('items_data', '[]')
+            try:
+                transaction.content = json.loads(items_data)    
+            except json.JSONDecodeError:
+                transaction.content = []
+                
+                       
+            transaction.save()
             return HttpResponseRedirect(reverse('main:index'))
     
     else:        
         form = ChequeModelForm(user=request.user)
-        form_content = ContentForm()
-                
-    context = {
-        "form": form,
-        "form_content": form_content,
-    }
-                
-    return render(request, 'main/add_cheque.html', context=context)
 
-
-def add_content(request):
-    form = ContentForm(request.GET)
-    
+      
+    return render(request, 'main/add_cheque.html', context={"form": form, })

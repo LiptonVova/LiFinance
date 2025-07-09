@@ -1,45 +1,55 @@
 {% extends "base/base.html" %}
 
-{% block links %} 
+{% load static %}
 
+{% block links %} 
+<link rel="stylesheet" href="{% static 'registration/css/account.css' %}">
 {% endblock %}
 
 {% block content %} 
+<div class="account-container">
+    <!-- Секция категорий -->
+    <div class="account-section">
+        {% if all_categories %}
+        <h3>Ваши категории</h3>
+        <ul class="items-list">
+            {% for category in all_categories %}
+                <li>{{ category }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        
+        <form method="POST" action="{% url 'authentication:add_category' %}" class="account-form">  
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form_category }}
+            </div>
+            <input type="submit" value="Добавить категорию" class="form-submit-btn"/>
+            <input type="hidden" name="form-id" value="category" />
+        </form>
+    </div>
 
-    {% if all_categories %}
-    <h3> Ваши категории </h3>
-    <ul>
-        {% for category in all_categories %}
-            <li> {{category}} </li>
-        {% endfor %}
-    </ul> <br>
-    {% endif %}
-    
-    <form method="POST" action="{% url 'authentication:add_category' %}">  
-        {% csrf_token %}
+    <div class="account-divider"></div>
 
-        {{ form_category }}
-        <input type="submit" value="Добавить категорию"/> 
-        <input type="hidden" name="form-id" value="category" />
-    </form>
+    <!-- Секция банковских счетов -->
+    <div class="account-section">
+        {% if all_bank_accounts %}
+        <h3>Ваши банковские счета</h3>
+        <ul class="items-list">
+            {% for bank_account in all_bank_accounts %}
+                <li>{{ bank_account }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
-    <br> <br>
-
-    {% if all_bank_accounts %}
-    <h3> Ваши банковские счета </h3>
-    <ul>
-        {% for bank_account in all_bank_accounts %}
-            <li> {{bank_account}} </li>
-        {% endfor %}
-    </ul> <br>
-    {% endif %}
-
-    <form method="POST" action="{% url 'authentication:add_bank_account' %}">
-        {% csrf_token %}
-    
-        {{ form_bank_account }}
-        <input type="submit" value="Добавить счет" /> 
-        <input type="hidden" name="form-id" value="bank_account" />
-    </form>
-
+        <form method="POST" action="{% url 'authentication:add_bank_account' %}" class="account-form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form_bank_account }}
+            </div>
+            <input type="submit" value="Добавить счет" class="form-submit-btn"/>
+            <input type="hidden" name="form-id" value="bank_account" />
+        </form>
+    </div>
+</div>
 {% endblock %}

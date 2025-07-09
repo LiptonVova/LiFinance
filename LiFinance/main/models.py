@@ -28,8 +28,8 @@ class BankAccount(models.Model):
 
 class Operation(models.Model):
     
-    sum = models.IntegerField()
-    content = models.CharField(max_length=500)
+    sum = models.DecimalField(default=0, max_digits=10, decimal_places=2)
+    content = models.JSONField(default=list, blank=True, null=True)
     date = models.DateField(default=timezone.now())
     operation_type = models.CharField(choices=type_choices)
     

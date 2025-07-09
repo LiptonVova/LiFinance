@@ -1,0 +1,161 @@
+/* Основные переменные */
+:root {
+    --primary-color: #4361ee;
+    --primary-hover: #3a56d4;
+    --white: #ffffff;
+    --text-color: #333333;
+    --transition: all 0.3s ease;
+}
+
+/* Контейнер формы */
+#transaction-form {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+#transaction-form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(90deg, var(--primary-color), #4cc9f0);
+}
+
+#transaction-form h2,
+#transaction-form h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+}
+
+/* Стили для полей формы */
+#transaction-form input[type="text"],
+#transaction-form input[type="number"],
+#transaction-form input[type="date"],
+#transaction-form select,
+#transaction-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+#transaction-form input[type="text"]:focus,
+#transaction-form input[type="number"]:focus,
+#transaction-form input[type="date"]:focus,
+#transaction-form select:focus,
+#transaction-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+/* Стили для кнопок */
+.btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Стили для позиций в чеке */
+#items-container {
+    margin-bottom: 2rem;
+}
+
+.item-form {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.item-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.item-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.remove-item-btn {
+    margin-top: 1rem;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #dee2e6;
+    margin: 1.5rem 0;
+}
+
+/* Стили для ошибок */
+.errorlist {
+    color: #e63946;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    #transaction-form {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}

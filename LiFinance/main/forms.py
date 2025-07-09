@@ -12,8 +12,11 @@ class ChequeModelForm(forms.ModelForm):
             
     class Meta:
         model = Operation
-        fields = ("sum", "content", "date", "operation_type", 
+        fields = ("sum", "date", "operation_type", 
                   "category", "bank_account", )
+        widgets = {
+            'date': forms.DateInput(attrs={"type": "date", }),
+        }
         
 class ContentForm(forms.Form):
     name = forms.CharField(max_length=50)
