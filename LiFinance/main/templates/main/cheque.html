@@ -6,7 +6,13 @@
 {% endblock %}
 
 {% block content %} 
-    <h2> Добавление чека </h2>
+    {% if edit_mode %}
+        <h2> Редактирование чека </h2>
+
+    {% else %}
+        <h2> Добавление чека </h2>
+
+    {% endif %}
 
     <form method="POST" action="" id="transaction-form" >
         {% csrf_token %}
@@ -54,6 +60,9 @@
     
 {% block scripts %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"> </script>
+    <script> 
+        const initialItems = {% if edit_mode %} {{cheque_items_json|safe }} {% else %} [] {% endif %};
+    </script>
     <script src="{% static 'main/js/main.js' %}"> </script>
 
 {% endblock %}

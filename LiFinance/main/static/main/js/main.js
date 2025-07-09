@@ -1,4 +1,17 @@
 $(document).ready(function() {
+    // Если есть начальные данные, создаем формы для них
+    if (initialItems && initialItems.length > 0) {
+        initialItems.forEach(item => {
+            const newItem = $('#item-template').children().first().clone();
+            newItem.find('.item-name').val(item.name);
+            newItem.find('.item-quantity').val(item.quantity);
+            newItem.find('.item-price').val(item.price);
+            $('#items-container').append(newItem);
+            newItem.show();
+        });
+        updateItemsData();
+    } 
+
     // Добавление новой позиции
     $('#add-item-btn').click(function() {
         // Проверяем, все ли предыдущие формы заполнены

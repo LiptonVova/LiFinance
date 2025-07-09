@@ -92,7 +92,12 @@
         {% if last_cheques %}
             <ul>
             {% for cheque in last_cheques %}
-                <li>{{ cheque }}</li>
+                <li>
+                    {{ cheque }}
+                    <a href="{% url 'main:delete_cheque' cheque.pk %}"> Удалить чек </a> 
+                    <a href="{% url 'main:update_cheque' cheque.pk %}"> Отредактировать чек </a> 
+
+                </li> 
             {% endfor %}
             </ul>
         {% else %}

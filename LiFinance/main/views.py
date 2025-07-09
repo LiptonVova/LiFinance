@@ -23,12 +23,15 @@ def index(request):
         if category.category_type == "IN":
             # сумма доходов только за данную категорию
             amount = Operation.objects.filter(category=category).aggregate(Sum('sum')) 
-            categories_income[category.name] = amount["sum__sum"]
+            if amount["sum__sum"] is not None:
+                categories_income[category.name] = amount["sum__sum"]
         
         elif category.category_type == "EX":
             # сумма доходов только за данную категорию
             amount = Operation.objects.filter(category=category).aggregate(Sum('sum'))
-            categories_expense[category.name] = amount["sum__sum"]
+            if (amount["sum__sum"] is not None):
+                categories_expense[category.name] = amount["sum__sum"]
+            
 
     bank_accounts = BankAccount.objects.filter(user=request.user)   
     bank_account_expense = dict()
@@ -84,4 +87,41 @@ def add_cheque(request):
         form = ChequeModelForm(user=request.user)
 
       
-    return render(request, 'main/add_cheque.html', context={"form": form, })
+    return render(request, 'main/cheque.html', context={"form": form, })
+
+
+@login_required(login_url=reverse_lazy('authentication:login'))
+def delete_cheque(request, cheque_id):
+    cheque = Operation.objects.filter(pk=cheque_id)
+    if cheque is not None:
+        cheque.delete()
+    return HttpResponseRedirect(reverse('main:index'))
+
+
+@login_required(login_url=reverse_lazy('authentication:login'))
+def update_cheque(request, cheque_id):
+    if request.method == 'POST':
+        pass
+    
+    else:
+        cheque = Operation.objects.get(pk=cheque_id)
+        if cheque is None:
+            return HttpResponseRedirect(reverse('main:index')) 
+        
+                
+        form = ChequeModelForm(user=request.user)
+        form.initial = {
+            "sum": cheque.sum,
+            "date": cheque.date,
+            "operation_type": cheque.operation_type,
+            "category": cheque.category,
+            "bank_account": cheque.bank_account,
+        }
+        
+        context = {
+            "edit_mode": True,
+            "cheque_items_json": json.dumps(cheque.content),
+            "form": form,
+        }
+    
+    return render(request, "main/cheque.html", context=context)
