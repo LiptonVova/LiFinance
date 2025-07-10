@@ -19,7 +19,7 @@
         <label id={{ form.end_date.label_for_id }}> Конец </label>
         {{ form.end_date }}
         <input type="submit" />
-        
+
     </form>
 
     {% if cheques %}
@@ -28,6 +28,11 @@
             <li> {{ cheque }} </li>
         {% endfor %}
         </ul>
+
+    {% elif first_session %}
+
+        Нажмите на кнопку отправить
+
     {% else %}
         <h2> За указанный промежуток времени чеков нет </h2>
 

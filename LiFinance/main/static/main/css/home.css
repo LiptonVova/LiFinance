@@ -6,87 +6,19 @@
     background: var(--white);
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    position: relative;
-    overflow: hidden;
-}
-
-.dashboard::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--primary-color), #4cc9f0);
 }
 
 .dashboard h1 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: var(--text-color);
-}
-
-.dashboard h2 {
-    margin: 1.5rem 0 1rem;
-    color: var(--text-color);
     border-bottom: 2px solid var(--primary-color);
     padding-bottom: 0.5rem;
 }
 
-.dashboard h3 {
-    margin: 1.2rem 0 0.8rem;
-    color: var(--text-color);
-}
-
-.dashboard ul {
-    list-style: none;
-    padding: 0;
-    margin: 0.5rem 0 1.5rem;
-}
-
-.dashboard li {
-    padding: 0.6rem 1rem;
-    margin-bottom: 0.5rem;
-    background-color: #f8f9fa;
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: var(--transition);
-}
-
-.dashboard li:hover {
-    background-color: #e9ecef;
-    transform: translateX(5px);
-}
-
-.dashboard a {
-    display: inline-block;
-    padding: 0.6rem 1.2rem;
-    background-color: var(--primary-color);
-    color: white;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: var(--transition);
-    margin-bottom: 1.5rem;
-}
-
-.dashboard a:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.no-data {
-    color: #6c757d;
-    font-style: italic;
-    padding: 0.6rem 1rem;
-}
-
 .section {
     margin-bottom: 2rem;
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #f8f9fa;
     border-radius: 8px;
 }
@@ -95,5 +27,143 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-link {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+}
+
+.section-link:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-section, .account-section {
+    margin-bottom: 1.5rem;
+}
+
+.category-section h3, .account-section h3 {
+    color: var(--text-color);
     margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.data-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.data-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.5rem;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: var(--transition);
+}
+
+.data-list li:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.data-name {
+    color: var(--text-color);
+}
+
+.data-amount {
+    font-weight: 600;
+}
+
+.expense {
+    color: #dc3545;
+}
+
+.income {
+    color: black;
+}
+
+.no-data {
+    color: #6c757d;
+    font-style: italic;
+    padding: 0.8rem 1rem;
+    background-color: white;
+    border-radius: 6px;
+    text-align: center;
+}
+
+.cheques-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cheque-item {
+    background-color: white;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.cheque-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.cheque-amount {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.cheque-date {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.cheque-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+.action-link {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: var(--transition);
+}
+
+.detail {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.edit {
+    background-color: #06cd1d;
+    color: white;
+}
+
+.delete {
+    background-color: #dc3545;
+    color: white;
+}
+
+.action-link:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
 }

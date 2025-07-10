@@ -1,0 +1,58 @@
+{% extends "base/base.html" %}
+
+{% load static %}
+
+{% block links %}
+    <link rel="stylesheet" href="{% static 'main/css/detail.css' %}"/>
+{% endblock %}
+
+{% block content %} 
+<div class="cheque-detail">
+    <h1>Детали чека</h1>
+    
+    <div class="cheque-info">
+        <div class="info-item">
+            <span class="label">Сумма чека:</span>
+            <span class="value">{{ cheque.sum }} ₽</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Дата операции:</span>
+            <span class="value">{{ cheque.date }}</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Тип операции:</span>
+            <span class="value">{{ cheque.get_operation_type }}</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Категория:</span>
+            <span class="value">{{ cheque.category }}</span>
+        </div>
+        <div class="info-item">
+            <span class="label">Счет:</span>
+            <span class="value">{{ cheque.bank_account }}</span>
+        </div>
+    </div>
+
+    {% if cheque.content %}
+        <div class="positions-section">
+            <h2>Позиции в чеке</h2>
+            <ul class="positions-list"> 
+                {% for position in cheque.content %} 
+                    <li class="position-item">
+                        <div class="position-name">{{ position.name }}</div>
+                        <div class="position-details">
+                            <span>Цена: {{ position.price }} ₽</span>
+                            <span>Количество: {{ position.quantity }}</span>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <a href="{% url 'main:update_cheque' cheque.pk %}" class="btn edit">Редактировать</a>
+        <a href="{% url 'main:delete_cheque' cheque.pk %}" class="btn delete">Удалить</a>
+    </div>
+</div>
+{% endblock %}

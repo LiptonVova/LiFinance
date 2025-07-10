@@ -113,6 +113,7 @@ def update_cheque(request, cheque_id):
     if request.method == 'POST':
         form = ChequeModelForm(request.user, request.POST)
         if form.is_valid():
+            cheque.name = form.cleaned_data["name"]
             cheque.sum = form.cleaned_data["sum"]
             cheque.date = form.cleaned_data["date"]
             cheque.operation_type = form.cleaned_data["operation_type"]
@@ -145,3 +146,14 @@ def update_cheque(request, cheque_id):
     }
 
     return render(request, "main/cheque.html", context=context)
+
+
+@login_required(login_url=reverse_lazy("authentication:login"))
+def detail(request, cheque_id):
+    operation = get_object_or_404(Operation, pk=cheque_id)
+    content = operation.content
+    
+    context = {
+        "cheque": operation,
+    }
+    return render(request, "main/detail.html", context=context ) 

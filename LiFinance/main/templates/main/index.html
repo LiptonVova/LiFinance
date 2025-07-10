@@ -6,22 +6,24 @@
     <link rel="stylesheet" href="{% static 'main/css/home.css' %}"/>
 {% endblock %}
 
-
 {% block content %}
 <div class="dashboard">
-    <h1>Финансовая аналитика</h1>
+    <h1>LiFinance</h1>
     
     <div class="section">
-        <h2>Операции по категориям</h2>
-        
+        <div class="section-header">
+            <h2>Операции по категориям</h2>
+            <a href="{% url 'authentication:account' %}" class="section-link">Добавить категорию</a>
+        </div>
+
         <div class="category-section">
             <h3>Расходы</h3>
             {% if categories_expense %}
-                <ul>
+                <ul class="data-list">
                     {% for category, amount in categories_expense.items %}
                     <li>
-                        <span>{{ category }}</span>
-                        <span>{{ amount }} ₽</span>
+                        <span class="data-name">{{ category }}</span>
+                        <span class="data-amount expense">{{ amount }} ₽</span>
                     </li>
                     {% endfor %}
                 </ul>
@@ -33,11 +35,11 @@
         <div class="category-section">
             <h3>Доходы</h3>
             {% if categories_income %}
-                <ul>
+                <ul class="data-list">
                     {% for category, amount in categories_income.items %}
                         <li>
-                            <span>{{ category }}</span>
-                            <span>{{ amount }} ₽</span>
+                            <span class="data-name">{{ category }}</span>
+                            <span class="data-amount income">+{{ amount }} ₽</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -48,16 +50,19 @@
     </div>
     
     <div class="section">
-        <h2>Операции по счетам</h2>
-        
+        <div class="section-header">
+            <h2>Операции по счетам</h2>
+            <a href="{% url 'authentication:account' %}" class="section-link">Добавить счет</a>
+        </div>
+
         <div class="account-section">
             <h3>Расходы</h3>
             {% if bank_account_expense %}
-                <ul>
+                <ul class="data-list">
                     {% for account, amount in bank_account_expense.items %}
                         <li>
-                            <span>{{ account }}</span>
-                            <span>{{ amount }} ₽</span>
+                            <span class="data-name">{{ account }}</span>
+                            <span class="data-amount expense">{{ amount }} ₽</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -69,11 +74,11 @@
         <div class="account-section">
             <h3>Доходы</h3>
             {% if bank_account_income %}
-                <ul> 
+                <ul class="data-list"> 
                     {% for account, amount in bank_account_income.items %}
                         <li>
-                            <span>{{ account }}</span>
-                            <span>{{ amount }} ₽</span>
+                            <span class="data-name">{{ account }}</span>
+                            <span class="data-amount income">+{{ amount }} ₽</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -86,19 +91,36 @@
     <div class="section">
         <div class="section-header">
             <h2>Последние чеки</h2>
-            <a href="{% url 'main:add_cheque' %}">Добавить чек</a>
+            <a href="{% url 'main:add_cheque' %}" class="section-link">Добавить чек</a>
         </div>
         
         {% if last_cheques %}
-            <ul>
-            {% for cheque in last_cheques %}
-                <li>
-                    {{ cheque }}
-                    <a href="{% url 'main:delete_cheque' cheque.pk %}"> Удалить чек </a> 
-                    <a href="{% url 'main:update_cheque' cheque.pk %}"> Отредактировать чек </a> 
-
-                </li> 
-            {% endfor %}
+            <ul class="cheques-list">
+                {% for cheque in last_cheques %}
+                    <li class="cheque-item">
+                        <div class="cheque-main">
+                            <span class="cheque-amount {% if cheque.operation_type == 'expense' %}expense{% else %}income{% endif %}">
+                                {% if cheque.operation_type == "EX" %} 
+                                    <span class="expense" > 
+                                        {{ cheque.name }} 
+                                        -{{ cheque.sum }} ₽
+                                    </span>
+                                {% else %}
+                                    <span class="income" > 
+                                        {{ cheque.name }} 
+                                        + {{ cheque.sum }} ₽
+                                    </span>
+                                {% endif %}                                
+                            </span>
+                            <span class="cheque-date">{{ cheque.date }}</span>
+                        </div>
+                        <div class="cheque-actions">
+                            <a href="{% url 'main:detail' cheque.id %}" class="action-link detail">Детали</a>
+                            <a href="{% url 'main:update_cheque' cheque.pk %}" class="action-link edit">Изменить</a>
+                            <a href="{% url 'main:delete_cheque' cheque.pk %}" class="action-link delete">Удалить</a>
+                        </div>
+                    </li> 
+                {% endfor %}
             </ul>
         {% else %}
             <p class="no-data">Чеков нет, добавьте свой первый чек</p>

@@ -30,7 +30,7 @@ class BankAccount(models.Model):
 
 
 class Operation(models.Model):
-    
+    name = models.CharField(max_length=100)
     sum = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     content = models.JSONField(default=list, blank=True, null=True)
     date = models.DateField(default=timezone.now())
@@ -42,3 +42,7 @@ class Operation(models.Model):
     
     def __str__(self):
         return f"<Operation with sum {self.sum}: category - {self.category.name}, bank account - {self.bank_account.name}>"
+
+
+    def get_operation_type(self):
+        return type_choices[self.operation_type]
