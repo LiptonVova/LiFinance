@@ -25,5 +25,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('main/', include('main.urls')),
     path('auth/', include('authentication.urls')),
+    path('history/', include('history.urls')),
     path('', RedirectView.as_view(url='/main/', permanent=True)),
 ]

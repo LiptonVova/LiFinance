@@ -1,0 +1,38 @@
+{% extends "base/base.html" %}
+
+{% load static %} 
+
+
+{% block links %} {% endblock %}
+
+
+{% block content %}
+    <form method="POST" action="" > 
+        {% csrf_token %}
+
+        <h2> Выберите промежуток </h2>
+        
+        <label id={{ form.start_date.label_for_id }}> Начало </label>
+        {{ form.start_date }}
+
+        
+        <label id={{ form.end_date.label_for_id }}> Конец </label>
+        {{ form.end_date }}
+        <input type="submit" />
+        
+    </form>
+
+    {% if cheques %}
+        <ul>
+        {% for cheque in cheques %} {}
+            <li> {{ cheque }} </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <h2> За указанный промежуток времени чеков нет </h2>
+
+    {% endif %}
+
+
+
+{% endblock %}

@@ -16,7 +16,7 @@
                         {% if user.is_authenticated %}
 
                         <a href="{% url "main:index" %}" class="nav-link nax-link-home"> Домашняя страница </a>
-                        <a href="" class="nav-link nav-link-history"> История </a>
+                        <a href="{% url "history:history" %}" class="nav-link nav-link-history"> История </a>
                         <a href="{% url 'main:add_cheque' %}" class="nav-link nav-link-add"> Добавить чек </a>
                         <a href="{% url 'authentication:account' %}" class="nav-link"> Аккаунт </a>
 
