@@ -3,6 +3,8 @@ from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 
+from django.shortcuts import get_object_or_404
+
 import json
 
 from django.forms import modelform_factory
@@ -86,8 +88,11 @@ def add_cheque(request):
     else:        
         form = ChequeModelForm(user=request.user)
 
-      
-    return render(request, 'main/cheque.html', context={"form": form, })
+    context = {
+        "edit_mode": False,
+        "form": form,
+    }
+    return render(request, 'main/cheque.html', context=context)
 
 
 @login_required(login_url=reverse_lazy('authentication:login'))
@@ -100,28 +105,43 @@ def delete_cheque(request, cheque_id):
 
 @login_required(login_url=reverse_lazy('authentication:login'))
 def update_cheque(request, cheque_id):
+    cheque = get_object_or_404(Operation, pk=cheque_id)
+    if cheque is None or cheque.user != request.user:
+        return HttpResponseRedirect(reverse('main:index'))
+    
+    
     if request.method == 'POST':
-        pass
-    
-    else:
-        cheque = Operation.objects.get(pk=cheque_id)
-        if cheque is None:
-            return HttpResponseRedirect(reverse('main:index')) 
-        
+        form = ChequeModelForm(request.user, request.POST)
+        if form.is_valid():
+            cheque.sum = form.cleaned_data["sum"]
+            cheque.date = form.cleaned_data["date"]
+            cheque.operation_type = form.cleaned_data["operation_type"]
+            cheque.category = form.cleaned_data["category"]
+            cheque.bank_account = form.cleaned_data["bank_account"]
+             
+            items_data = request.POST.get('items_data', '[]')
+            try:
+                cheque.content = json.loads(items_data)
+            except json.JSONDecodeError:
+                cheque.content = []
                 
-        form = ChequeModelForm(user=request.user)
-        form.initial = {
-            "sum": cheque.sum,
-            "date": cheque.date,
-            "operation_type": cheque.operation_type,
-            "category": cheque.category,
-            "bank_account": cheque.bank_account,
-        }
-        
-        context = {
-            "edit_mode": True,
-            "cheque_items_json": json.dumps(cheque.content),
-            "form": form,
-        }
+            cheque.save()
+            return HttpResponseRedirect(reverse('main:index'))
+                        
+                        
+    form = ChequeModelForm(user=request.user)
+    form.initial = {
+        "sum": cheque.sum,
+        "date": cheque.date,
+        "operation_type": cheque.operation_type,
+        "category": cheque.category,
+        "bank_account": cheque.bank_account,
+    }
     
+    context = {
+        "edit_mode": True,
+        "cheque_items_json": json.dumps(cheque.content),
+        "form": form,
+    }
+
     return render(request, "main/cheque.html", context=context)

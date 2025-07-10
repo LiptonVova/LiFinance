@@ -13,9 +13,12 @@ class Category(models.Model):
     name = models.CharField(max_length=50)
     category_type = models.CharField(choices=type_choices)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+   
     def __str__(self):
         return f"{self.name}"
+    
+    def get_category_type(self):
+        return type_choices[self.category_type]
     
     
 class BankAccount(models.Model):

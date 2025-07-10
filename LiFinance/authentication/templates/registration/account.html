@@ -14,7 +14,12 @@
         <h3>Ваши категории</h3>
         <ul class="items-list">
             {% for category in all_categories %}
-                <li>{{ category }}</li>
+                <li>
+                    {{ category.name }} 
+                    {{ category.get_category_type }} 
+                    <a href="{% url 'authentication:delete_category' category.id %}"> Удалить </a>
+                
+                </li>
             {% endfor %}
         </ul>
         {% endif %}

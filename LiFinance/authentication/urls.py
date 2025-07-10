@@ -8,5 +8,7 @@ urlpatterns = [
     path('account/', views.account_view, name="account"),
     path('account/add_category', views.add_category, name="add_category"),
     path('account/add_bank_account', views.add_bank_account, name="add_bank_account"),
+    path('account/delete_category/<int:category_id>', views.delete_category, name="delete_category"),
+    
     path('', include('django.contrib.auth.urls')),
 ]

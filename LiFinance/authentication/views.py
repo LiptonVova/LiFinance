@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth import logout
@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
 from .forms import CategoryModelForm, BankAccountModelForm
-from main.models import Category, BankAccount
+from main.models import Category, BankAccount, Operation
 
 from django.forms import modelform_factory
 
@@ -77,3 +77,20 @@ def add_bank_account(request):
         bank_account.save()
         
     return HttpResponseRedirect(reverse("authentication:account"))
+
+
+@login_required(login_url=reverse_lazy("authentication:login"))
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    if category.user != request.user:
+        return HttpResponseRedirect(reverse("authentication:account"))
+    
+    operations = Operation.objects.filter(category__id=category_id)
+    if (operations):
+        pass
+        # нужно вывести сообщение
+    else:
+        category.delete()
+            
+    return HttpResponseRedirect(reverse("authentication:account"))
+    
