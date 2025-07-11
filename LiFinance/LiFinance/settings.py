@@ -87,10 +87,20 @@ DATABASES = {
     # }
     
     
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'LiFinance',
+    #     'USER': 'postgres',
+    #     'PASSWORD': '0000',
+    #     'HOST': 'localhost',
+    #     'PORT': '5432',        
+    # }
+    
+        
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LiFinance',
-        'USER': 'postgres',
+        'NAME': 'LiFinanseDB',
+        'USER': 'lipton',
         'PASSWORD': '0000',
         'HOST': 'localhost',
         'PORT': '5432',        
