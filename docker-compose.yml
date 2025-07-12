@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:14.18
+    container_name: posgres-container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME} 
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    networks:
+      - dbnet
+      
+  lifinance:
+    build: 
+      context: ./LiFinance/
+      dockerfile: Dockerfile
+    container_name: lifinance-container
+    ports:
+      - "8000:8000"
+    networks:
+      - dbnet
+    links:
+      - "postgres:dbps"
+    depends_on: 
+      - postgres
+    environment:
+      SECRET_KEY: ${SECRET_KEY}
+      DEBUG: ${DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+
+      DATABASE_ENGINE: ${DATABASE_ENGINE}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_USER: ${DATABASE_USERNAME}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+    env_file:
+      - .env
+
+networks:
+  dbnet:
+    driver: bridge
+
+volumes:
+  postgres_data:

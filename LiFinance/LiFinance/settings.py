@@ -22,12 +22,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ks@1m4#n%hb%l=lkouviyw+mol*18ro0v*)@_!olhp%f0)*5g_'
+# SECRET_KEY = 'django-insecure-ks@1m4#n%hb%l=lkouviyw+mol*18ro0v*)@_!olhp%f0)*5g_'1
+
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = bool(os.environ.get("DEBUG", default=0))
+
+# ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1").split(' ')
 
 # Application definition
 
@@ -97,14 +103,25 @@ DATABASES = {
     # }
     
         
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql',
+    #     'NAME': 'db',
+    #     'USER': 'lipton',
+    #     'PASSWORD': '0000',
+    #     'HOST': 'localhost',
+    #     'PORT': '5431',        
+    # }
+    
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LiFinanseDB',
-        'USER': 'lipton',
-        'PASSWORD': '0000',
-        'HOST': 'localhost',
-        'PORT': '5432',        
+        'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.postgresql"),
+        'NAME': os.environ.get('DATABASE_NAME', "db"),
+        'USER': os.environ.get('DATABASE_USER', "lipton"),
+        'PASSWORD': os.environ.get("DATABASE_PASSWORD", "0000"),
+        'HOST': os.environ.get("DATABASE_HOST", "localhost"),
+        'PORT': os.environ.get("DATABASE_PORT", "5432"),        
     }
+    
+
     
 }
 
@@ -144,6 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
