@@ -132,6 +132,7 @@ def update_cheque(request, cheque_id):
                         
     form = ChequeModelForm(user=request.user)
     form.initial = {
+        "name": cheque.name,
         "sum": cheque.sum,
         "date": cheque.date,
         "operation_type": cheque.operation_type,

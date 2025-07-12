@@ -159,6 +159,39 @@
     font-size: 1.2rem;
 }
 
+.items-list li a {
+    text-decoration: none;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: var(--transition);
+    display: inline-block;
+}
+
+/* Кнопка редактирования */
+.edit-btn {
+    background-color: #9d52ff;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: rgb(150, 29, 255);
+    transform: translateY(-1px);
+}
+
+/* Кнопка удаления */
+.delete-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #ff2036;
+    transform: translateY(-1px);
+}
+
 /* Адаптивность */
 @media (max-width: 768px) {
     .account-container {

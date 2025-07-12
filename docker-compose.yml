@@ -41,7 +41,7 @@ services:
       DATABASE_PORT: ${DATABASE_PORT}
     env_file:
       - .env
-
+      
 networks:
   dbnet:
     driver: bridge

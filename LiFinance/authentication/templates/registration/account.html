@@ -17,7 +17,8 @@
                 <li>
                     {{ category.name }} 
                     {{ category.get_category_type }} 
-                    <a href="{% url 'authentication:delete_category' category.id %}"> Удалить </a>
+                    <a href="{% url 'authentication:update_category' category.id %}" class="edit-btn"> Отредактировать </a> 
+                    <a href="{% url 'authentication:delete_category' category.id %}" class="delete-btn"> Удалить </a>
                 
                 </li>
             {% endfor %}
@@ -42,7 +43,11 @@
         <h3>Ваши банковские счета</h3>
         <ul class="items-list">
             {% for bank_account in all_bank_accounts %}
-                <li>{{ bank_account }}</li>
+                <li> 
+                    {{ bank_account }}
+                    <a href="{% url 'authentication:update_bank_account' bank_account.id %}" class="edit-btn" > Отредактировать </a>
+                    <a href="{% url 'authentication:delete_bank_account' bank_account.id %}" class="delete-btn"> Удалить </a>
+                </li>
             {% endfor %}
         </ul>
         {% endif %}

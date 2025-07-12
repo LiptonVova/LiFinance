@@ -14,9 +14,17 @@ def history_view(request):
             start_date = form.cleaned_data["start_date"]
             end_date = form.cleaned_data["end_date"]    
             
-            cheques = (Operation.objects.filter(user=request.user) 
+            operations = (Operation.objects.filter(user=request.user) 
                         & Operation.objects.filter(date__lte=end_date) 
                         & Operation.objects.filter(date__gte=start_date))
+            
+            cheques = dict()
+            for operation in operations:
+                if operation.date in cheques:
+                    cheques[operation.date].append(operation)
+                else:
+                    cheques[operation.date] = [operation]
+            
 
     else:    
         cheques = []
@@ -25,7 +33,7 @@ def history_view(request):
         
     context = {
         "form": form, 
-        "cheques": cheques,
+        "cheques_dict": cheques,
         "first_session": first_session,
     }
     return render(request, "history/history.html", context=context)

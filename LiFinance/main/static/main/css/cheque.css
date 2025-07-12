@@ -7,8 +7,7 @@
     --transition: all 0.3s ease;
 }
 
-/* Контейнер формы */
-#transaction-form {
+.cheque-container {
     max-width: 800px;
     margin: 2rem auto;
     padding: 2rem;
@@ -16,10 +15,9 @@
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     position: relative;
-    overflow: hidden;
 }
 
-#transaction-form::before {
+.cheque-container::before {
     content: '';
     position: absolute;
     top: 0;
@@ -29,8 +27,15 @@
     background: linear-gradient(90deg, var(--primary-color), #4cc9f0);
 }
 
-#transaction-form h2,
-#transaction-form h3 {
+.cheque-container h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: var(--text-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.cheque-container h3 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: var(--text-color);
@@ -131,6 +136,13 @@
     margin-top: 1rem;
 }
 
+.form-actions {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+}
+
 hr {
     border: 0;
     height: 1px;
@@ -149,13 +161,18 @@ hr {
 
 /* Адаптивность */
 @media (max-width: 768px) {
-    #transaction-form {
+    .cheque-container {
         padding: 1.5rem;
         margin: 1rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
     }
     
     .btn {
         width: 100%;
         margin-bottom: 0.5rem;
+        margin-right: 0;
     }
 }

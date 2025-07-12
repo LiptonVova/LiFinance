@@ -94,3 +94,63 @@ def delete_category(request, category_id):
             
     return HttpResponseRedirect(reverse("authentication:account"))
     
+    
+@login_required(login_url=reverse_lazy("authentication:login"))
+def delete_bank_account(request, bank_account_id):
+    bank_account = get_object_or_404(BankAccount, pk=bank_account_id)
+    if bank_account.user != request.user:
+        return HttpResponseRedirect(reverse("authentication:account"))
+
+    operations = Operation.objects.filter(bank_account__id=bank_account_id)
+    if operations:
+        pass 
+        # вывести сообщение
+        
+    else:
+        bank_account.delete()
+        
+    return HttpResponseRedirect(reverse("authentication:account"))
+
+
+@login_required(login_url=reverse_lazy("authentication:login"))
+def update_category(request, category_id):
+    category = get_object_or_404(Category, pk=category_id)
+    
+    if request.method == "POST":
+        form = CategoryModelForm(request.POST)
+        if form.is_valid():
+            category.name = form.cleaned_data["name"]
+            category.category_type = form.cleaned_data["category_type"]
+            
+            category.save()
+            return HttpResponseRedirect(reverse("authentication:account"))
+            
+        
+        
+    form = CategoryModelForm(initial={"name": category.name, "category_type": category.category_type,})
+    
+    context = {
+        "form": form,
+    }
+
+    return render(request, "registration/update_category.html", context=context)
+
+@login_required(login_url=reverse_lazy("authentication:login"))
+def update_bank_account(request, bank_account_id):
+    bank_account = get_object_or_404(BankAccount, pk=bank_account_id)
+    if request.method == "POST":
+        form = BankAccountModelForm(request.POST)
+        
+        if form.is_valid():
+            bank_account.name = form.cleaned_data["name"]
+            
+            bank_account.save()
+            
+            return HttpResponseRedirect(reverse("authentication:account"))
+        
+    form = BankAccountModelForm(initial={"name": bank_account.name, })
+    context = {
+        "form": form,
+    }
+    
+    return render(request, "registration/update_bank_account.html", context=context)
