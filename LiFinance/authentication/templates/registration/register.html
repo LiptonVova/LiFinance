@@ -11,7 +11,7 @@
     <div class="container"> 
         {% if form.errors %}
             <div class="form-errors">
-                {% for field, errors in form.errors.items %}
+                {% for field, error in form.errors.items %}
                     {{ error }} <br>
                 {% endfor %}
             </div>
@@ -26,7 +26,9 @@
             <label for="{{ form.password1.id_for_label }}"> Пароль </label>
             {{ form.password1 }} <br>
             <div class="password-hint">
-                Ваш пароль должен содержать как минимум 8 символов    
+                <p> Ваш пароль должен содержать как минимум 8 символов </p>
+                <p> Ваш пароль не должен быть слишком распространненым </p>
+                <p> Ваш пароль не должен совпадать с логином </p>    
             </div>
         </div>
 

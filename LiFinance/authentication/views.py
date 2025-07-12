@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from .forms import CategoryModelForm, BankAccountModelForm
 from main.models import Category, BankAccount, Operation
 
+from django.contrib import messages
+
 from django.forms import modelform_factory
 
 from django.contrib.auth.decorators import login_required
@@ -26,7 +28,8 @@ def register_view(request):
         if form.is_valid():
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password1"]        
-            User.objects.create_user(username=username, password=password)            
+            User.objects.create_user(username=username, password=password)    
+            messages.success(request, "Вы успешно зарегистрировались")
             return HttpResponseRedirect(reverse("authentication:login"))
     
     else:
@@ -86,9 +89,11 @@ def delete_category(request, category_id):
         return HttpResponseRedirect(reverse("authentication:account"))
     
     operations = Operation.objects.filter(category__id=category_id)
+    print(operations)
     if (operations):
-        pass
-        # нужно вывести сообщение
+        message = ("Прежде чем удалить эту категорию, удалите все операции,\
+                    в которых используется эта категория")
+        messages.error(request, message)
     else:
         category.delete()
             
@@ -103,8 +108,9 @@ def delete_bank_account(request, bank_account_id):
 
     operations = Operation.objects.filter(bank_account__id=bank_account_id)
     if operations:
-        pass 
-        # вывести сообщение
+        message = "Прежде чем удалить этот счет, удалите все операции,\
+                    в которых используется этот счет"
+        messages.error(request, message)
         
     else:
         bank_account.delete()

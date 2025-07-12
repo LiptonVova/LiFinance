@@ -87,31 +87,6 @@ WSGI_APPLICATION = 'LiFinance.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': BASE_DIR / 'db.sqlite3',
-    # }
-    
-    
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'LiFinance',
-    #     'USER': 'postgres',
-    #     'PASSWORD': '0000',
-    #     'HOST': 'localhost',
-    #     'PORT': '5432',        
-    # }
-    
-        
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql',
-    #     'NAME': 'db',
-    #     'USER': 'lipton',
-    #     'PASSWORD': '0000',
-    #     'HOST': 'localhost',
-    #     'PORT': '5431',        
-    # }
-    
     'default': {
         'ENGINE': os.environ.get("DATABASE_ENGINE", "django.db.backends.postgresql"),
         'NAME': os.environ.get('DATABASE_NAME', "db"),
@@ -120,9 +95,6 @@ DATABASES = {
         'HOST': os.environ.get("DATABASE_HOST", "localhost"),
         'PORT': os.environ.get("DATABASE_PORT", "5432"),        
     }
-    
-
-    
 }
 
 
@@ -131,16 +103,13 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'LiFinance.validators.SimilarValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'LiFinance.validators.MinLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'LiFinance.validators.CommonValidator',
     },
 ]
 

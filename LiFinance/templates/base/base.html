@@ -2,13 +2,25 @@
 <html lang="ru">
     <head>
         {% load static %}
-        <link rel="stylesheet" href="{% static 'style_navigation.css'%}">
+        <link rel="stylesheet" href="{% static 'css/style_navigation.css'%}">
+        <link rel="stylesheet" href="{% static 'css/messages.css' %}">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,500,600,700&display=swap">
 
         {% block links %} {% endblock %}
     </head>
 
     <body>
+        {% block messages %}
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"> {% endif %} {{ message }} </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+        {% endblock %}
+
         {% block navigation %} 
             <nav>
                 <div class="nav-container">
@@ -37,6 +49,7 @@
         {% block content %} {% endblock %}
 
         <script src="{% static 'js/navigation.js' %}"></script>
+        <script src="{% static 'js/messages.js' %}"> </script>
         {% block scripts %}{% endblock %}
     </body>
 </html>
